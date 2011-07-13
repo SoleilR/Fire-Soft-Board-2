@@ -21,6 +21,10 @@
 
 <call name="javascript" arg1="topic.js" />
 <call name="javascript" arg1="wysiwyg.js" />
+<switch name="leave_popup">
+<call name="javascript" arg1="leave_edit.js" />
+</switch>
+
 <script type="text/javascript">
 <!--
 FSB_editor_lg = [];
@@ -28,6 +32,7 @@ FSB_editor_lg['ltab'] = '#addslashes{$LG_EDITOR_TEXT}';
 FSB_editor_lg['ltab_explain'] = '#addslashes{$LG_EDITOR_TEXT_EXPLAIN}';
 FSB_editor_lg['rtab'] = '#addslashes{$LG_EDITOR_WYSIWYG}';
 FSB_editor_lg['rtab_explain'] = '#addslashes{$LG_EDITOR_WYSIWYG_EXPLAIN}';
+var leave_text = '#addslashes{$LG_LEAVE_MESSAGE}';
 -->
 </script>
 
@@ -52,7 +57,7 @@ FSB_editor_lg['rtab_explain'] = '#addslashes{$LG_EDITOR_WYSIWYG_EXPLAIN}';
 				</tr>
 			</switch>
 			<switch name="post_login_to">
-				<tr>	
+				<tr>
 					<th><label for="post_login_to_id">{LG_POST_LOGIN_TO} :</label><switch name="mp_allow_multiple"><br /><span class="small">{LG_POST_LOGIN_TO_EXPLAIN}</span></if></th>
 					<td>
 						<switch name="mp_allow_multiple">
@@ -143,8 +148,8 @@ FSB_editor_lg['rtab_explain'] = '#addslashes{$LG_EDITOR_WYSIWYG_EXPLAIN}';
 				<th></th>
 				<td>
 					{HIDDEN}
-					<input type="submit" name="preview_post" value="{LG_PREVIEW}" accesskey="p" class="submit" />
-					<input type="submit" name="submit_post" value="{LG_SUBMIT}" accesskey="s" class="submit" id="submit_post_id" />
+					<input type="submit" name="preview_post" value="{LG_PREVIEW}" accesskey="p" class="submit"/>
+					<input type="submit" name="submit_post" value="{LG_SUBMIT}" accesskey="s" class="submit" id="submit_post_id"/>
 				</td>
 			</tr>
 		</table>
@@ -188,7 +193,7 @@ FSB_editor_lg['rtab_explain'] = '#addslashes{$LG_EDITOR_WYSIWYG_EXPLAIN}';
 		<table class="form">
 			<tr>
 				<th><label for="upload_path_id">{LG_POST_UPLOAD_PATH} :</label></th>
-				<td><input type="file" name="upload_path" id="upload_path_id" /> <input type="submit" name="submit_upload" value="{LG_SEND}" class="submit" /></td>
+				<td><input type="file" name="upload_path" id="upload_path_id" /> <input type="submit" name="submit_upload" value="{LG_SEND}" class="submit"/></td>
 			</tr>
 			<tr>
 				<th><label>{LG_POST_UPLOAD_AUTH} :</label><br /><span class="small">{LG_POST_UPLOAD_AUTH_EXPLAIN}</span></th>

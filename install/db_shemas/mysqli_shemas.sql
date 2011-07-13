@@ -464,7 +464,7 @@ CREATE TABLE fsb2_sub_procedure (
   procedure_name varchar(255) NOT NULL,
   procedure_source text NOT NULL,
   procedure_auth tinyint(4) NOT NULL default '2',
-  PRIMARY KEY (procedure_id) 
+  PRIMARY KEY (procedure_id)
 ) Type=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS fsb2_topics;
@@ -556,6 +556,7 @@ CREATE TABLE fsb2_users (
   u_activate_auto_notification tinyint(4) NOT NULL default '2',
   u_activate_mp_notification tinyint(4) NOT NULL default '1',
   u_activate_hidden tinyint(4) NOT NULL default '0',
+  u_activate_leave_edit tinyint(4) NOT NULL default '0',
   u_activate_fscode tinyint(4) NOT NULL default '6',
   u_activate_avatar tinyint(4) NOT NULL default '1',
   u_activate_sig tinyint(4) NOT NULL default '1',

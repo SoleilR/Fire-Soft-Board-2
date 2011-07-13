@@ -452,7 +452,7 @@ procedure_id INT DEFAULT nextval('fsb2_sub_procedure_seq'),
   procedure_name varchar(255),
   procedure_source text,
   procedure_auth INT2 default '2',
-  PRIMARY KEY (procedure_id) 
+  PRIMARY KEY (procedure_id)
 );
 DROP TABLE IF EXISTS fsb2_topics;
 CREATE SEQUENCE fsb2_topics_seq;
@@ -541,6 +541,7 @@ u_id INT DEFAULT nextval('fsb2_users_seq'),
   u_activate_auto_notification INT2 default '2',
   u_activate_mp_notification INT2 default '1',
   u_activate_hidden INT2 default '0',
+  u_activate_leave_edit INT2 default '0',
   u_activate_fscode INT2 default '6',
   u_activate_avatar INT2 default '1',
   u_activate_sig INT2 default '1',
