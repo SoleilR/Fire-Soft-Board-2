@@ -1,7 +1,7 @@
 <?php
 /**
  * Fire-Soft-Board version 2
- * 
+ *
  * @package FSB2
  * @author Genova <genova@fire-soft-board.com>
  * @version $Id$
@@ -10,7 +10,7 @@
 
 /**
  * On affiche le module
- * 
+ *
  * @var bool
  */
 $show_this_module = true;
@@ -37,18 +37,18 @@ class Page_user_activate extends Fsb_model
 	 * @var array
 	 */
 	public $data = array();
-	
+
 	/**
 	 * Constructeur
 	 */
 	public function __construct()
-	{	
+	{
 		// On declare tous les champs d'activation
 		$this->data = array(
 			'email' => array(
 				'br' =>		true,
 				'type' =>	'radio',
-				'value' =>	'binary', 
+				'value' =>	'binary',
 				'args' =>	array(
 					2 =>	Fsb::$session->lang('user_ac_email_extern'),
 					4 =>	Fsb::$session->lang('user_ac_email_intern'),
@@ -85,6 +85,17 @@ class Page_user_activate extends Fsb_model
 				'args' =>	array(
 					1 =>	Fsb::$session->lang('yes'),
 					0 =>	Fsb::$session->lang('no')
+				)
+			),
+
+			'leave_edit' =>	array(
+				'br' =>		true,
+				'type' =>	'radio',
+				'value' =>	'binary',
+				'args' =>	array(
+			0 =>	Fsb::$session->lang('user_activate_leave_edit_nothing'),
+			1 =>	Fsb::$session->lang('user_activate_leave_edit_localStorage'),
+			2 =>	Fsb::$session->lang('user_activate_leave_edit_popup')
 				)
 			),
 
@@ -153,8 +164,8 @@ class Page_user_activate extends Fsb_model
 				'type' =>	'radio',
 				'value' =>	'binary',
 				'args' =>	array(
-					2 =>	Fsb::$session->lang('user_ac_redirection_null'), 
-					4 =>	Fsb::$session->lang('user_ac_redirection_header'), 
+					2 =>	Fsb::$session->lang('user_ac_redirection_null'),
+					4 =>	Fsb::$session->lang('user_ac_redirection_header'),
 					8 =>	Fsb::$session->lang('user_ac_redirection_meta')
 				)
 			),
@@ -188,17 +199,17 @@ class Page_user_activate extends Fsb_model
 		}
 		$this->activate_form();
 	}
-	
+
 	/**
 	 * Affiche le formulaire d'activation
 	 */
 	public function activate_form()
-	{		
+	{
 		Fsb::$tpl->set_file('user/user_activate.html');
 		Fsb::$tpl->set_vars(array(
 			'U_ACTION' =>	sid('index.' . PHPEXT . '?p=profile&amp;module=activate'),
 		));
-		
+
 		foreach ($this->data AS $key => $value)
 		{
 			Fsb::$tpl->set_blocks('activate', array(
@@ -208,7 +219,7 @@ class Page_user_activate extends Fsb_model
 				'BR' =>			$value['br'],
 				'TYPE' =>		$value['type'],
 			));
-			
+
 			foreach ($value['args'] AS $form_value => $form_lang)
 			{
 				Fsb::$tpl->set_blocks('activate.form', array(
@@ -219,7 +230,7 @@ class Page_user_activate extends Fsb_model
 			}
 		}
 	}
-	
+
 	/**
 	 * Soumet le formulaire
 	 */
@@ -235,7 +246,7 @@ class Page_user_activate extends Fsb_model
 				{
 					$tmp = array();
 				}
-				
+
 				$set = 0;
 				foreach ($tmp AS $value_set)
 				{
@@ -246,10 +257,10 @@ class Page_user_activate extends Fsb_model
 			{
 				$set = intval($tmp);
 			}
-			
+
 			$update['u_activate_' . $key] = $set;
 		}
-		
+
 		Fsb::$db->update('users', $update, 'WHERE u_id = ' . Fsb::$session->id());
 		Log::user(Fsb::$session->id(), 'update_activate');
 		Display::message('user_profil_submit', ROOT . 'index.' . PHPEXT . '?p=profile&amp;module=activate', 'forum_profil');

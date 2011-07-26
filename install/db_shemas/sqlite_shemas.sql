@@ -388,7 +388,7 @@ CREATE TABLE fsb2_sub_procedure (
   procedure_name varchar(255),
   procedure_source text,
   procedure_auth tinyint(4) default '2',
-  PRIMARY KEY (procedure_id) 
+  PRIMARY KEY (procedure_id)
 );
 CREATE TABLE fsb2_topics (
   t_id INTEGER PRIMARY KEY NOT null,
@@ -469,6 +469,7 @@ CREATE TABLE fsb2_users (
   u_activate_auto_notification tinyint(4) default '2',
   u_activate_mp_notification tinyint(4) default '1',
   u_activate_hidden tinyint(4) default '0',
+  u_activate_leave_edit tinyint(4) default '0',
   u_activate_fscode tinyint(4) default '6',
   u_activate_avatar tinyint(4) default '1',
   u_activate_sig tinyint(4) default '1',

@@ -1,7 +1,7 @@
 <?php
 /**
  * Fire-Soft-Board version 2
- * 
+ *
  * @package FSB2
  * @author Genova <genova@fire-soft-board.com>
  * @version $Id$
@@ -21,14 +21,14 @@ class Fsb_frame_child extends Fsb_frame
 	 * @var bool
 	 */
 	public $_show_page_header_nav = true;
-	
+
 	/**
 	 * Affichage de la barre de navigation du footer
 	 *
 	 * @var bool
 	 */
 	public $_show_page_footer_nav = false;
-	
+
 	/**
 	 * Affichage de la boite des stats
 	 *
@@ -63,7 +63,7 @@ class Fsb_frame_child extends Fsb_frame
 	 * @var int
 	 */
 	public $u_id;
-	
+
 	/**
 	 * ID du message à l'origine (message prive)
 	 *
@@ -80,67 +80,67 @@ class Fsb_frame_child extends Fsb_frame
 
 	/**
 	 * Login
-	 * 
+	 *
 	 */
 	public $post_login_to;
-	
+
 	/**
 	 * Pseudo
-	 * 
+	 *
 	 */
 	public $nickname;
-	
+
 	/**
 	 * Titre
-	 * 
+	 *
 	 */
 	public $title;
-	
+
 	/**
 	 * Contenu
-	 * 
+	 *
 	 */
 	public $content;
-	
+
 	/**
 	 * Description
-	 * 
+	 *
 	 */
 	public $description;
-	
+
 	/**
 	 * Id
-	 * 
+	 *
 	 */
 	public $to_id = array();
-	
+
 	/**
 	 * Type
-	 * 
+	 *
 	 */
 	public $type;
-	
+
 	/**
 	 * Question vote
-	 * 
+	 *
 	 */
 	public $poll_name;
-	
+
 	/**
 	 * Options vote
-	 * 
+	 *
 	 */
 	public $poll_values;
-	
+
 	/**
 	 * Votes max
-	 * 
+	 *
 	 */
 	public $poll_max_vote;
-	
+
 	/**
 	 * Texte upload
-	 * 
+	 *
 	 */
 	public $upload_comment;
 
@@ -359,7 +359,7 @@ class Fsb_frame_child extends Fsb_frame
 					if ($row && ($this->data['t_map'] == 'classic' || $row['p_id'] != $this->data['t_first_p_id']))
 					{
 						$this->content = $row['p_text'];
-						
+
 						$nickname = str_replace(']', '&#93;', $row['p_nickname']);
 						$this->data['_quote_map'] = '[quote=' .  htmlspecialchars($nickname) . ',t=' . $row['p_time'] . ',id=' . $row['p_id'] . ']%s[/quote]';
 					}
@@ -510,18 +510,27 @@ class Fsb_frame_child extends Fsb_frame
 
 		return (true);
 	}
-	
+
 	/**
 	 * Affiche le formulaire permettant de poster des messages
 	 *
 	 */
 	public function show_post_form()
-	{		
+	{
 		Fsb::$tpl->set_file('forum/forum_post.html');
-		
+
 		if (count($this->errstr))
 		{
 			Fsb::$tpl->set_switch('error');
+		}
+		if(Fsb::$session->data['u_activate_leave_edit']>0)
+		{
+			Fsb::$tpl->set_switch('leave_edit');
+			Fsb::$tpl->set_vars(array(
+				'LEAVE_EDIT_VALUE' =>		Fsb::$session->data['u_activate_leave_edit'],
+				'LEAVE_EDIT_MODE' =>		$this->mode,
+				'LEAVE_EDIT_ID' =>		$this->id
+			));
 		}
 
 		// Upload de fichier ?
@@ -564,7 +573,6 @@ class Fsb_frame_child extends Fsb_frame
 				{
 					Fsb::$tpl->set_switch('post_login');
 				}
-
 				// Captcha ?
 				if ($this->use_captcha)
 				{
@@ -650,7 +658,7 @@ class Fsb_frame_child extends Fsb_frame
 						Fsb::$db->free($result);
 					}
 				}
-				
+
 				$this->topic_review($this->id);
 
 				// Contenu du message
@@ -694,7 +702,7 @@ class Fsb_frame_child extends Fsb_frame
 				{
 					$list_hour[$i] = String::add_zero($i, 2);
 				}
-			
+
 				$list_min = array();
 				for ($i = 0; $i <= 59; $i++)
 				{
@@ -1041,7 +1049,7 @@ class Fsb_frame_child extends Fsb_frame
 			}
 		}
 	}
-	
+
 	/**
 	 * Verification des donnees du formulaire
 	 *
@@ -1229,12 +1237,12 @@ class Fsb_frame_child extends Fsb_frame
 				$this->poll_values[] = String::substr($v, 0, 70);
 			}
 		}
-		
+
 		if ($this->poll_name && count($this->poll_values) < 2)
 		{
 			$this->errstr[] = Fsb::$session->lang('post_poll_more_answer');
 		}
-		
+
 		// Si le membre est connecte son pseudonyme pour le message sera son vrai pseudonyme
 		if (Fsb::$session->is_logged())
 		{
@@ -1252,7 +1260,7 @@ class Fsb_frame_child extends Fsb_frame
 			$this->errstr[] = sprintf(Fsb::$session->lang('post_flood'), Fsb::$cfg->get('flood_post') - (CURRENT_TIME - Fsb::$session->data['u_flood_post']));
 		}
 	}
-	
+
 	/**
 	 * Envoie les donnees
 	 *
@@ -1368,7 +1376,7 @@ class Fsb_frame_child extends Fsb_frame
 			break;
 		}
 	}
-	
+
 	/**
 	 * Recupere les donnees du message prive en cas de citation / reponse
 	 *
@@ -1445,7 +1453,7 @@ class Fsb_frame_child extends Fsb_frame
 					{
 						Display::message('user_not_exists');
 					}
-					
+
 					$this->post_login_to = htmlspecialchars($this->mp_data['u_nickname']);
 				}
 			break;

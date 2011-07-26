@@ -1,7 +1,7 @@
 <?php
 /**
  * Fire-Soft-Board version 2
- * 
+ *
  * @package FSB2
  * @author Genova <genova@fire-soft-board.com>
  * @version $Id$
@@ -42,6 +42,11 @@ return (array (
 	'user_activate_auto_notification_explain' => 'Vous pouvez accéder aux sujets que vous surveillez depuis le menu en haut en page. Si vous ne souhaitez pas surveiller les sujets dans lesquels vous postez, vous pouvez tout de même les surveiller manuellement via l\'icone de surveillance dans les sujets.',
 	'user_activate_mp_notification' => 'Recevoir un email à chaque message privé',
 	'user_activate_hidden' => 'Etre connecté en invisible',
+	'user_activate_leave_edit' => 'Quitter une page d\'édition',
+	'user_activate_leave_edit_explain' => 'Lorsque vous créez ou répondez à un sujet, il peut arriver de quitter la page par inadvertance et ainsi, de perdre son texte. Ces options peuvent permettre d\'éviter cela.',
+	'user_activate_leave_edit_nothing' => 'Sans action supplémentaire.',
+	'user_activate_leave_edit_localStorage' => 'Utiliser localStorage pour préserver le message en cas de mauvaise manipulation.',
+	'user_activate_leave_edit_popup' => 'Afficher une fenêtre pop-up de confirmation.',
 	'user_activate_avatar' => 'Voir les avatars dans les sujets',
 	'user_activate_sig' => 'Voir les signatures dans les sujets',
 	'user_activate_fscode' => 'Afficher les FSBcodes',

@@ -86,7 +86,7 @@ function edit_post_dynamic(id, post_id, is_first_post)
 				{
 					html += '<input type="text" name="" id="title_' + id + '_ajax" size="60" maxlength="60" value="' + htmlspecialchars(title, true) + '" /><br /><br />';
 				}
-	
+
 				html += '<textarea style="width: 99%" rows="15" name="" id="' + id + '_ajax" tabindex="' + tabindex + '">' + content + '</textarea><p style="text-align: center">';
 				html += '<span style="float: left; margin-top: -13px"> &nbsp; &nbsp; ';
 				html += '<a href="javascript:resize_textarea(\'' + id + '_ajax\', -5)"><img src="' + topic['img_textarea_less'] + '" /></a> ';
@@ -147,7 +147,7 @@ function submit_post_dynamic(id, post_id, redirect)
 	}
 
 	ajax_waiter_open();
-	
+
 	obj = {
 		mode: 'submit_post',
 		id: post_id
@@ -162,7 +162,7 @@ function submit_post_dynamic(id, post_id, redirect)
 			{
 				return ;
 			}
-	
+
 			if (redirect)
 			{
 				location.href = topic['url_submit_ajax'] + '&id=' + post_id;
@@ -172,7 +172,7 @@ function submit_post_dynamic(id, post_id, redirect)
 				content = xml.getElementsByTagName('root').item(0).getElementsByTagName('content').item(0).firstChild.nodeValue;
 				title = xml.getElementsByTagName('root').item(0).getElementsByTagName('title').item(0).firstChild.nodeValue;
 				$(id).innerHTML = content;
-	
+
 				if (title)
 				{
 					$('page_title').innerHTML = title;
@@ -205,7 +205,7 @@ function cancel_post_dynamic(id, post_id)
 			{
 				return ;
 			}
-	
+
 			if (xml.getElementsByTagName('content').item(0))
 			{
 				content = xml.getElementsByTagName('content').item(0).firstChild.nodeValue;
@@ -245,16 +245,16 @@ function quote_post(post_id, form_id, open_id, editor_obj, is_mp)
 			{
 				return ;
 			}
-	
+
 			if (xml.getElementsByTagName('content').item(0))
 			{
 				content = unhtmlspecialchars(xml.getElementsByTagName('content').item(0).firstChild.nodeValue);
-	
+
 				if (open_id)
 				{
 					$(open_id).style.display = 'block';
 				}
-	
+
 				if (!editor_obj || editor_obj.w.current == 'text')
 				{
 					$(form_id).value = trim($(form_id).value + "\n" + content);
@@ -273,3 +273,74 @@ function quote_post(post_id, form_id, open_id, editor_obj, is_mp)
 		is_wysiwyg: (editor_obj && editor_obj.get_type() == 'wysiwyg') ? '1' : '0'
 	});
 }
+
+/* Empêche de quitter une page sans valider le message. */
+function leave_edit_init()
+{	// Si on répond ou crée un sujet on va vérifié la présence d'information.
+	//Sinon, on peut sortir de la fonction.
+	if(leave_parameter[1]=='topic' || leave_parameter[1]=='reply')
+	{	//Si on a des infos dans localStorage
+		//On traite le localStorage pour récupérer un tableau
+		//On vérifie que le contenu concerne cette page.
+		//Et si c'est le cas, on replace les données.
+		if(localStorage.leave_edit!='')
+		{
+			contenus=localStorage.leave_edit.split(",");
+			if(contenus[1]==leave_parameter[1] && contenus[2]==leave_parameter[2])
+			{
+				for (i=3;i<contenus.length;i=i+2)
+				{
+					document.getElementsByName(contenus[i])[0].value=contenus[i+1];
+				}
+			}
+		}
+	}
+	else{return;}
+	// Si on répond ou crée un sujet, la fonction continu.
+	//On récupère les champs input et textarea dans des variables et on leur assigne des événements.
+	textarea=document.getElementsByTagName('textarea');
+	input=document.getElementsByTagName('input');
+	for (i=0;i<input.length;++i)
+	{
+		input[i].addEventListener("change",leave_edit_onchange);
+		if (input[i].getAttribute('type')=='submit')
+		{
+			input[i].addEventListener("click", leave_edit_onclick);
+		}
+	}
+	for (i=0;i<textarea.length;++i)
+	{
+		textarea[i].addEventListener("change",leave_edit_onchange);
+	}
+}
+
+function leave_edit_onchange()
+{
+	textarea=document.getElementsByTagName('textarea');
+	input=document.getElementsByTagName('input');
+	Storage=[[]];
+	Storage.push([leave_parameter[1],leave_parameter[2]]);
+	for (i=0;i<input.length;++i)
+	{
+		if (input[i].getAttribute('type')=='text' && input[i].value!='')
+		{Storage.push([input[i].name,input[i].value]);}
+	}
+	for (i=0;i<textarea.length;++i)
+	{
+		if (textarea[i].value!='')
+		{Storage.push([textarea[i].name,textarea[i].value]);}
+	}
+	localStorage.leave_edit=Storage;
+	if(leave_parameter[0]==2){window.onbeforeunload=leave_message;}
+	//Prendre en charge les checkbox, radio, list et multimist qui peuvent se trouver dans les map.
+	//Notifier par un popup à unload ?
+}
+
+function leave_edit_onclick()
+{
+	window.onbeforeunload=null;
+	localStorage.leave_edit=null;
+}
+
+
+function leave_message() {return leave_parameter[3];}
